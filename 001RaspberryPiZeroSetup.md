@@ -291,11 +291,11 @@ nohup apt install -y v4l2loopback-dkms &
 
 #### 一時的に `/dev/video99` として作成
 ```sh
-sudo modprobe v4l2loopback video_nr=99
+sudo modprobe v4l2loopback video_nr=99 card_label="alphaeye"
 ```
 実行後に `v4l2-ctl --list-devices` コマンドを実行すると以下のように表示される
 ```sh
-Dummy video device (0x0000) (platform:v4l2loopback-000):
+alphaeye (platform:v4l2loopback-000):
         /dev/video99
 ```
 
@@ -318,83 +318,4 @@ sudo apt install libcap-dev
 pip install picamera2
 ```
 
-- サンプルコード
-
-**サンプルソース**
-```py
-from picamera2 import Picamera2
-import cv2
-
-# Picamera2 の初期化
-picam2 = Picamera2()
-picam2.configure(picam2.create_preview_configuration())
-
-# カメラを開始
-picam2.start()
-
-while True:
-    # フレームを取得
-    frame = picam2.capture_array()
-
-    # フレームに四角を描画
-    cv2.rectangle(frame, (50, 50), (200, 200), (0, 255, 0), 2)
-
-    # プレビュー表示
-    #cv2.imshow("Preview", frame)
-
-    # 'q'キーで終了
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-picam2.close()
-#cv2.destroyAllWindows()
-```
-
-**元ソース**
-```py
-import cv2
-import numpy as np
-
-# Raspberry Pi専用カメラのデバイスパス (通常 /dev/video0)
-input_device = "/dev/video0"
-
-# 仮想カメラデバイス (v4l2loopback で作成済み /dev/video10)
-output_device = "/dev/video99"
-
-# カメラストリームを開く
-cap = cv2.VideoCapture(input_device, cv2.CAP_V4L2)
-
-# 出力ストリームの設定
-fourcc = cv2.VideoWriter_fourcc(*'BGR3')  # コーデック (例: XVID)
-out = cv2.VideoWriter(output_device, fourcc, 30.0, (640, 480))
-
-if not cap.isOpened():
-    print("カメラデバイスの読み込みに失敗しました。")
-    exit()
-
-print("ストリーミング開始...")
-
-while True:
-    ret, frame = cap.read()
-    if not ret:
-        print("フレームの取得に失敗しました。")
-        break
-
-    # フレームに四角を描画
-    cv2.rectangle(frame, (50, 50), (200, 200), (0, 255, 0), 2)  # 緑の四角
-
-    # 仮想カメラにフレームを送信
-    out.write(frame)
-
-    # 画面にプレビュー (必要に応じて)
-    #cv2.imshow("Preview", frame)
-
-    # 'q'キーで終了
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-# リソースの解放
-cap.release()
-out.release()
-#cv2.destroyAllWindows()
-```
+ffmpeg -f v4l2 -list_formats all -i /dev/video0
