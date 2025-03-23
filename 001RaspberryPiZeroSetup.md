@@ -269,11 +269,12 @@ bcm2835-isp (platform:bcm2835-isp):
  ```
 
  3. デバイス名を指定してmomoを実行
+```sh
+./momo --no-audio-device --video-device "VirtualCam" test
+```
+- ログ詳細を出力
  ```sh
-./momo --use-libcamera --no-audio-device --video-device "bcm2835-isp" test
-./momo --use-libcamera --no-audio-device --video-device "alphaeye" test
-./momo --video-device "platform:v4l2loopback-000" test
-./momo --log-level 0 --use-libcamera --no-audio-device --video-device "VirtualCam" test
+./momo --log-level 0 --no-audio-device --video-device "VirtualCam" test
  ```
 
 ## OpenCV 
@@ -296,15 +297,15 @@ sudo apt install v4l2loopback-dkms
 
 ### 仮想カメラの作成
 
-#### 一時的に `/dev/video99` として作成
+#### `/dev/video50` として作成
 ```sh
-sudo modprobe v4l2loopback video_nr=99 exclusive_caps=1 card_label="alphaeye"
+sudo modprobe v4l2loopback video_nr=50 exclusive_caps=0 card_label="alphaeye"
 v4l2-ctl --list-devices
 ```
 実行後に `v4l2-ctl --list-devices` コマンドを実行すると以下のように表示される
 ```sh
 alphaeye (platform:v4l2loopback-000):
-        /dev/video99
+        /dev/video60
 ```
 作成した仮想のカメラを削除するには
 ```sh
@@ -339,7 +340,7 @@ sudo apt install gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugi
 
 - 仮想カメラの設定を行うために、映像ストリームを供給
 ```sh
-gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480,framerate=30/1 ! v4l2sink device=/dev/video99
+gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480,framerate=30/1 ! v4l2sink device=/dev/video50
 ```
 
 - 実行すると以下のような内容が表示される
@@ -372,3 +373,25 @@ ioctl: VIDIOC_ENUM_FMT
 ```sh
 ffmpeg -f v4l2 -list_formats all -i /dev/video0
 ```
+- デバイスの一覧
+```sh
+v4l2-ctl --list-devices
+```
+
+## 映像配信までの手順
+```sh
+sudo modprobe v4l2loopback video_nr=50 exclusive_caps=0 card_label="alphaeye"
+```
+```sh
+gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480,framerate=30/1 ! v4l2sink device=/dev/video50
+```
+```sh
+cd source/ProjectAlpha/opencv_sample
+python sampl.py
+```
+```sh
+cd momo
+./momo --no-audio-device --video-device "alphaeye" test
+```
+
+http://alpha.local:8080/html/test.html
