@@ -7,6 +7,7 @@ camera = Picamera2()
 camera_config = camera.create_video_configuration()
 camera.configure(camera_config)
 camera.start()
+print("Picamera2のセットアップ 完了")
 
 # 仮想カメラデバイスの設定
 virtual_cam = "/dev/video99"
@@ -16,6 +17,8 @@ width, height = 640, 480  # 解像度
 fps = 30  # フレームレート
 fourcc = cv2.VideoWriter_fourcc(*'BGR4')
 out = cv2.VideoWriter(virtual_cam, fourcc, fps, (width, height))
+
+print("仮想カメラ用のVideoWriter 完了")
 
 try:
     while True:
@@ -33,8 +36,13 @@ try:
         out.write(frame)
 
 except KeyboardInterrupt:
+    
     print("Streaming stopped")
 
 finally:
+    print("Stop 開始")
     camera.stop()
+    print("Stop 完了")
+    print("release 開始")
     out.release()
+    print("release 完了")
