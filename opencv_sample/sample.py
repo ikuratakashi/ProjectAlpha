@@ -18,8 +18,9 @@ width, height = 640, 480  # 解像度
 fps = 30  # フレームレート
 fourcc = cv2.VideoWriter_fourcc(*'YUYV')
 #out = cv2.VideoWriter(virtual_cam, fourcc, fps, (width, height))
-pipeline = "appsrc ! videoconvert ! v4l2sink device=/dev/video99"
-out = cv2.VideoWriter(pipeline, cv2.CAP_GSTREAMER, fourcc, fps, (width, height))
+pipeline = "appsrc ! videoconvert ! videoscale ! video/x-raw,format=YUYV ! v4l2sink device=/dev/video99"
+#out = cv2.VideoWriter(pipeline, cv2.CAP_GSTREAMER,fourcc, fps, (width, height))
+out = cv2.VideoWriter(pipeline, 0, fps, (width, height),True)
 
 print("仮想カメラ用のVideoWriter 完了")
 
