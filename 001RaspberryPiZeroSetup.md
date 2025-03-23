@@ -332,7 +332,7 @@ sudo apt install libcap-dev python3-picamera2
 
 - 仮想デバイスの設定が上手くいかないのでgstreamerで行う為にインストール
 ```sh
-sudo apt install gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
+sudo apt install gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly python3-gst-1.0
 ```
 ### gstremerの実行
 
