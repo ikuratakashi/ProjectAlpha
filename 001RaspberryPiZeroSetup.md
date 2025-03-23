@@ -297,12 +297,17 @@ sudo apt install v4l2loopback-dkms
 
 #### 一時的に `/dev/video99` として作成
 ```sh
-sudo modprobe v4l2loopback video_nr=99 card_label="alphaeye"
+sudo modprobe v4l2loopback video_nr=99 exclusive_caps=1 card_label="alphaeye"
+v4l2-ctl --list-devices
 ```
 実行後に `v4l2-ctl --list-devices` コマンドを実行すると以下のように表示される
 ```sh
 alphaeye (platform:v4l2loopback-000):
         /dev/video99
+```
+作成した仮想のカメラを削除するには
+```sh
+sudo modprobe -r v4l2loopback
 ```
 
 ## OpenCVを用いてlibcameraスタックと連携させる方法
@@ -323,8 +328,45 @@ libcamera が正しく動作している場合、以下のように明示的に 
 sudo apt install libcap-dev python3-picamera2
 ```
 
-## その他
+### gstremerのインストール
 
+- 仮想デバイスの設定が上手くいかないのでgstreamerで行う為にインストール
+```sh
+sudo apt install gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
+```
+### gstremerの実行
+
+- 仮想カメラの設定を行うために、映像ストリームを供給
+```sh
+gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480,framerate=30/1 ! v4l2sink device=/dev/video99
+```
+
+- 実行すると以下のような内容が表示される
+```sh
+Setting pipeline to PAUSED ...
+Pipeline is PREROLLING ...
+Pipeline is PREROLLED ...
+Setting pipeline to PLAYING ...
+Redistribute latency...
+New clock: GstSystemClock
+0:09:12.7 / 99:99:99.
+```
+
+又、以下のコマンドを実行するとデバイスの詳細が表示される
+```sh
+v4l2-ctl --device=/dev/video99 --list-formats-ext
+```
+実行結果
+```sh
+ioctl: VIDIOC_ENUM_FMT
+        Type: Video Capture
+
+        [0]: 'YUYV' (YUYV 4:2:2)
+                Size: Discrete 640x480
+                        Interval: Discrete 0.033s (30.000 fps)
+```
+
+## その他
 - 指定したデバイスのフォーマットを表示する
 ```sh
 ffmpeg -f v4l2 -list_formats all -i /dev/video0
