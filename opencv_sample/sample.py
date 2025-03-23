@@ -15,7 +15,7 @@ virtual_cam = "/dev/video99"
 # 仮想カメラ用のVideoWriter
 width, height = 640, 480  # 解像度
 fps = 30  # フレームレート
-fourcc = cv2.VideoWriter_fourcc(*'BGR4')
+fourcc = cv2.VideoWriter_fourcc(*'YUYV')
 out = cv2.VideoWriter(virtual_cam, fourcc, fps, (width, height))
 
 print("仮想カメラ用のVideoWriter 完了")
@@ -36,7 +36,7 @@ try:
         out.write(frame)
 
 except KeyboardInterrupt:
-    
+
     print("Streaming stopped")
 
 finally:
