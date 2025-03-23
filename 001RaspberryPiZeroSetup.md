@@ -38,6 +38,9 @@ sudo systemctl isolate multi-user.target
 sudo systemctl set-default graphical.target
 sudo systemctl isolate graphical.target
 ```
+
+**pyenvでpythonを動かすとカメラのライブラリが正常に動作しない為、pyenvのインストールおよびpythonのインストールは行わない**
+
 ## Pyenvのインストール
 Pythonのバージョン管理ツール
 ### インストール
@@ -174,6 +177,7 @@ https://github.com/shiguredo/momo/blob/develop/doc/SETUP_RASPBERRY_PI.md
 ```sh
 sudo apt-get install libnspr4 libnss3
 sudo apt-get install libcamera0.4 libcamera-apps
+sudo apt install python3-libcamera
 ```
 
 
@@ -267,6 +271,8 @@ bcm2835-isp (platform:bcm2835-isp):
  3. デバイス名を指定してmomoを実行
  ```sh
  ./momo --use-libcamera --no-audio-device --video-device "bcm2835-isp" test
+ ./momo --use-libcamera --no-audio-device --video-device "alphaeye" test
+ ./momo --video-device "platform:v4l2loopback-000" test
  ```
 
 ## OpenCV 
@@ -275,7 +281,7 @@ bcm2835-isp (platform:bcm2835-isp):
 
 ### インストール
 ```sh
-nohup pip install -y opencv-python &
+sudo apt install python3-opencv
 ```
 
 ## v4l2loopback
@@ -284,7 +290,7 @@ nohup pip install -y opencv-python &
 
 ### インストール
 ```sh
-nohup apt install -y v4l2loopback-dkms &
+sudo apt install v4l2loopback-dkms
 ```
 
 ### 仮想カメラの作成
@@ -314,8 +320,12 @@ libcamera が正しく動作している場合、以下のように明示的に 
 
 - ライブラリのインストール
 ```sh
-sudo apt install libcap-dev
-pip install picamera2
+sudo apt install libcap-dev python3-picamera2
 ```
 
+## その他
+
+- 指定したデバイスのフォーマットを表示する
+```sh
 ffmpeg -f v4l2 -list_formats all -i /dev/video0
+```

@@ -14,7 +14,7 @@ virtual_cam = "/dev/video99"
 # 仮想カメラ用のVideoWriter
 width, height = 640, 480  # 解像度
 fps = 30  # フレームレート
-fourcc = cv2.VideoWriter_fourcc(*'YUYV')
+fourcc = cv2.VideoWriter_fourcc(*'BGR4')
 out = cv2.VideoWriter(virtual_cam, fourcc, fps, (width, height))
 
 try:
