@@ -270,9 +270,10 @@ bcm2835-isp (platform:bcm2835-isp):
 
  3. デバイス名を指定してmomoを実行
  ```sh
- ./momo --use-libcamera --no-audio-device --video-device "bcm2835-isp" test
- ./momo --use-libcamera --no-audio-device --video-device "alphaeye" test
- ./momo --video-device "platform:v4l2loopback-000" test
+./momo --use-libcamera --no-audio-device --video-device "bcm2835-isp" test
+./momo --use-libcamera --no-audio-device --video-device "alphaeye" test
+./momo --video-device "platform:v4l2loopback-000" test
+./momo --log-level 0 --use-libcamera --no-audio-device --video-device "VirtualCam" test
  ```
 
 ## OpenCV 
