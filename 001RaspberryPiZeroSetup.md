@@ -392,6 +392,10 @@ python sampl.py
 ```sh
 cd momo
 ./momo --no-audio-device --video-device "alphaeye" test
+
+./momo --log-level 0 --resolution=HD --force-i420 --hw-mjpeg-decoder=true --no-audio-device --video-device "alphaeye" test
+
+
 ```
 
 http://alpha.local:8080/html/test.html

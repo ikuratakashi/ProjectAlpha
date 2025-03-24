@@ -29,13 +29,14 @@ try:
         frame = frame[:,:,:1]
 
         # 四角形を描画
-        '''
         start_point = (50, 50)  # 四角形の始点
         end_point = (200, 200)  # 四角形の終点
         color = (0, 255, 0)  # 四角形の色 (BGRフォーマット)
         thickness = 3  # 四角形の線の太さ
-        cv2.rectangle(frame, start_point, end_point, color, thickness)
-        '''
+        try:
+            cv2.rectangle(frame, start_point, end_point, color, thickness)
+        except Exception as e:
+            print(f"error:{e}")
 
         # 仮想カメラに映像を送信
         out.write(frame)
