@@ -28,6 +28,7 @@ try:
         # フレームをキャプチャ
         frame = camera.capture_array()
         frame = frame[:,:,:3]
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # 四角形を描画
         start_point = (50, 50)  # 四角形の始点
