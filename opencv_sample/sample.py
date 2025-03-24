@@ -12,8 +12,9 @@ print("Picamera2のセットアップ 完了")
 # 仮想カメラ用のVideoWriter
 width, height = 640, 480  # 解像度
 fps = 30  # フレームレート
+isColor = True #カラーかどうか
 pipeline = "appsrc ! videoconvert ! videoscale ! video/x-raw,format=YUY2 ! v4l2sink device=/dev/video50"
-out = cv2.VideoWriter(pipeline,cv2.CAP_GSTREAMER, 0, fps, (width, height),False)
+out = cv2.VideoWriter(pipeline,cv2.CAP_GSTREAMER, 0, fps, (width, height),isColor)
 
 #virtual_cam = "/dev/video99"
 #fourcc = cv2.VideoWriter_fourcc(*'I420')
