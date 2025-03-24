@@ -16,11 +16,6 @@ isColor = True #カラーかどうか
 pipeline = "appsrc ! videoconvert ! videoscale ! video/x-raw,format=YUY2 ! v4l2sink device=/dev/video50"
 out = cv2.VideoWriter(pipeline,cv2.CAP_GSTREAMER, 0, fps, (width, height),isColor)
 
-#virtual_cam = "/dev/video99"
-#fourcc = cv2.VideoWriter_fourcc(*'I420')
-#out = cv2.VideoWriter(virtual_cam, fourcc, fps, (width, height))
-#out = cv2.VideoWriter(pipeline, cv2.CAP_GSTREAMER,fourcc, fps, (width, height))
-
 print("仮想カメラ用のVideoWriter 完了")
 
 try:
@@ -42,6 +37,7 @@ try:
 
         # 仮想カメラに映像を送信
         out.write(frame)
+        del frame
 
 except KeyboardInterrupt:
 
