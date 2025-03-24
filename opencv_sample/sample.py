@@ -4,8 +4,7 @@ from picamera2 import Picamera2
 
 # Picamera2のセットアップ
 camera = Picamera2()
-camera_config = camera.create_video_configuration()
-camera_config['size'] = (640, 480)
+camera_config = camera.create_video_configuration(main={"size": (640, 480)})
 camera.configure(camera_config)
 camera.start()
 print("Picamera2のセットアップ 完了")
@@ -27,6 +26,7 @@ try:
     while True:
         # フレームをキャプチャ
         frame = camera.capture_array()
+        frame = frame[:,:,:3]
 
         # 四角形を描画
         start_point = (50, 50)  # 四角形の始点
