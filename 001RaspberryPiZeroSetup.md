@@ -338,7 +338,7 @@ sudo apt install gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugi
 ```
 ### gstremerの実行
 
-- 仮想カメラの設定を行うために、映像ストリームを供給
+- 仮想カメラの設定を行うために、映像ストリームを供給(テスト映像をデバイスに送る)
 ```sh
 gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480,framerate=30/1 ! v4l2sink device=/dev/video50
 ```
@@ -383,19 +383,15 @@ v4l2-ctl --list-devices
 sudo modprobe v4l2loopback video_nr=50 exclusive_caps=0 card_label="alphaeye"
 ```
 ```sh
-gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480,framerate=30/1 ! v4l2sink device=/dev/video50
-```
-```sh
 cd source/ProjectAlpha/opencv_sample
 python sampl.py
 ```
 ```sh
 cd momo
+./momo --force-i420 --no-audio-device --video-device "alphaeye" test
+
 ./momo --no-audio-device --video-device "alphaeye" test
-
 ./momo --log-level 0 --force-i420 --hw-mjpeg-decoder=true --no-audio-device --video-device "alphaeye" test
-
-
 ```
 
 http://alpha.local:8080/html/test.html

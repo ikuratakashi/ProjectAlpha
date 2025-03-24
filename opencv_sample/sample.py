@@ -40,13 +40,8 @@ try:
         #del frame
 
 except KeyboardInterrupt:
-
     print("Streaming stopped")
 
 finally:
-    print("Stop 開始")
     camera.stop()
-    print("Stop 完了")
-    print("release 開始")
     out.release()
-    print("release 完了")
