@@ -13,7 +13,7 @@ print("Picamera2のセットアップ 完了")
 width, height = 640, 480  # 解像度
 fps = 30  # フレームレート
 pipeline = "appsrc ! videoconvert ! videoscale ! video/x-raw,format=YUY2 ! v4l2sink device=/dev/video50"
-out = cv2.VideoWriter(pipeline,cv2.CAP_GSTREAMER, 0, fps, (width, height),True)
+out = cv2.VideoWriter(pipeline,cv2.CAP_GSTREAMER, 0, fps, (width, height),False)
 
 #virtual_cam = "/dev/video99"
 #fourcc = cv2.VideoWriter_fourcc(*'I420')
@@ -26,7 +26,7 @@ try:
     while True:
         # フレームをキャプチャ
         frame = camera.capture_array()
-        frame = frame[:,:,:3]
+        frame = frame[:,:,:1]
 
         # 四角形を描画
         '''
