@@ -393,7 +393,7 @@ python sampl.py
 cd momo
 ./momo --no-audio-device --video-device "alphaeye" test
 
-./momo --log-level 0 --resolution=HD --force-i420 --hw-mjpeg-decoder=true --no-audio-device --video-device "alphaeye" test
+./momo --log-level 0 --force-i420 --hw-mjpeg-decoder=true --no-audio-device --video-device "alphaeye" test
 
 
 ```

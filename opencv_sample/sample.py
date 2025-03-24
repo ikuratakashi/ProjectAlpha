@@ -37,7 +37,7 @@ try:
 
         # 仮想カメラに映像を送信
         out.write(frame)
-        del frame
+        #del frame
 
 except KeyboardInterrupt:
 
