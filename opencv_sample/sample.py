@@ -26,7 +26,7 @@ try:
     while True:
         # フレームをキャプチャ
         frame = camera.capture_array()
-        frame = frame[:,:,:1]
+        frame = frame[:,:,:3]
 
         # 四角形を描画
         start_point = (50, 50)  # 四角形の始点
