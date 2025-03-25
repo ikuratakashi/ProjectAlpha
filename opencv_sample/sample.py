@@ -12,7 +12,7 @@ print("Picamera2のセットアップ 完了")
 # 仮想カメラ用のVideoWriter
 width, height = 640, 480  # 解像度
 fps = 30  # フレームレート
-isColor = True #カラーかどうか
+isColor = False #カラーかどうか
 pipeline = "appsrc ! videoconvert ! videoscale ! video/x-raw,format=YUY2 ! v4l2sink device=/dev/video50"
 out = cv2.VideoWriter(pipeline,cv2.CAP_GSTREAMER, 0, fps, (width, height),isColor)
 
@@ -23,7 +23,13 @@ try:
         # フレームをキャプチャ
         frame = camera.capture_array()
         frame = frame[:,:,:3]
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        
+        #カラー
+        if isColor == True:
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        else:
+            gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            frame = cv2.cvtColor(gray_frame, cv2.COLOR_GRAY2BGR)
 
         # 四角形を描画
         start_point = (50, 50)  # 四角形の始点

@@ -336,7 +336,7 @@ sudo apt install libcap-dev python3-picamera2
 ```sh
 sudo apt install gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly python3-gst-1.0
 ```
-### gstremerの実行
+### gstremerのテスト実行
 
 - 仮想カメラの設定を行うために、映像ストリームを供給(テスト映像をデバイスに送る)
 ```sh
@@ -394,6 +394,5 @@ cd momo
 ./momo --log-level 0 --force-i420 --hw-mjpeg-decoder=true --no-audio-device --video-device "alphaeye" test
 ```
 
+- momo動作確認URL
 http://alpha.local:8080/html/test.html
-
-CBus error
