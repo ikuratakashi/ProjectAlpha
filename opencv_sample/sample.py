@@ -50,5 +50,3 @@ except KeyboardInterrupt:
 finally:
     camera.stop()
     out.release()
-
-a = 1
